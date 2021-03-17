@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Приложение для дел</title>
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</head>
+<body>
+    <style>
+        .navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .navbar .navbar-item {
+            margin: 10px 30px;
+        }
+
+        .navbar .navbar-item {
+            text-decoration: none;
+            color: #000;
+        }
+
+        .navbar .navbar-item:hover {
+            color: orange;
+            transform: rotate(360deg);
+            transition: .3s;
+        }
+    </style>
+
+    <div django-app="TaskManager" class="task_manager">
+       <nav class="navbar" role="navigation" aria-label="main navigation">
+          <div class="navbar-menu">
+           <div class="navbar-start">
+               <a class="navbar-item" href="../category">Категории</a>
+               <a class="navbar-item" href="../todo">Список дел</a>
+           </div>
+       </div>
+   </nav>
+   <!--     в блок контент мы будем подгружать наши странички категорий и тудушек-->
+   {% block content %}
+   {% endblock %}
+</div>
+</body>
+</html>
