@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200;300;400;500;600;700;800;900&display=swap');
+
+* {
+    font-family: "Roboto Slab", sans-serif;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.navbar .navbar-item {
+    margin: 10px 30px;
+}
+
+.navbar .navbar-item {
+    text-decoration: none;
+    color: #000;
+}
+
+.navbar .navbar-item:hover {
+    color: orange;
+    transform: rotate(360deg);
+    transition: .3s;
+}

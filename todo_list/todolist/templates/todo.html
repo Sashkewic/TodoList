@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-<style>
+{% load static %}
+<link rel="stylesheet" href="{% static 'todolist/todo.css' %}">
+<!-- <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200;300;400;500;600;700;800;900&display=swap');
 
     * {
@@ -19,28 +21,28 @@
 
     .caselist {
         position: relative;
-        left: 25%;
+        left: 37%;
     }
 
     
-</style>
+</style> -->
 
-<div class="container" style="min-height:11vh;">
+<div class="container">
   <!-- на самом деле можно было обойтись и hero, но я обратился к inline-css -->
   <div class="addcase_block">
       <h1 class="caselist">Список дел</h1>
       <form action="" method="post">
           {% csrf_token %}
           <!-- csrf для базовой безопасности нашего приложения -->
-          <div class="field has-text-centered" style="margin-bottom: 50px;">
+          <div class="field has-text-centered">
               <label for="description" class="label_case">Введите дело</label>
               <div class="control">
                <input type="text" id="description" class="input" placeholder="Чем собираетесь заняться?"
-               name="description" required style="width: 100%; height: 40px;">
+               name="description" required>
            </div>
        </div>
        <div class="columns">
-          <div class="column" style="width: 100%; margin-bottom: 50px; height: 40px;">
+          <div class="column">
               <label for="category" class="label_category">Категории</label>
               <div class="control">
                   <div class="select">
@@ -55,42 +57,53 @@
                   </div>
               </div>
           </div>
-          <div class="column" style="margin-bottom: 50px;">
-              <label for="dueDate" style="color: orange;">Выберите дату</label>
+          <div class="column">
+              <label for="dueDate">Выберите дату</label>
               <input type="date" id="dueDate" class="input calendar" name="date" required>
           </div>
       </div>
       <div class="column">
           <div class="field">
-              <button class="button is-primary" name="Add" type="submit" style="background: orange; border: 2px solid orange; width: 200px; height: 50px; border-radius: 10px;">
+              <button class="button is-primary" name="Add" type="submit">
                   <span class="icon is-small">
                       <i class="fa fa-plus"></i>
                   </span>
                   <span>Добавить задание</span>
               </button>
-              <button class="button is-link" name="Delete" formnovalidate="" type="submit" style="background: red; border: 2px solid red; width: 200px; height: 50px; border-radius: 10px;">
+              <button class="button is-link" name="Complete" formnovalidate="" type="submit">
                   <span class="icon is-small">
                       <i class="fas fa-trash-alt"></i>
                   </span>
                   <span>
-                      Удалить дело
+                      Закончить дело
                   </span>
               </button>
           </div>
       </div>
-      <div class="list is-hoverable">
-          {% for todo in todos %}
+      <div class="todo_list">
+        <h2>Ваши текущие задания:</h2>
+          {% for todo in uncompleted_todos %}
           <!-- шаблонный язык django- for loop -->
           <div class="list-item">
               <label class="checkbox">
-                  <input type="checkbox" class=" checkbox" name="checkedbox" value="{{ todo.id }}">
-                  <span class="complete-">{{ todo.title }}</span>
+                  <input type="checkbox" class="checkbox" name="checkedbox" value="{{ todo.id }}">
+                  <span class="complete">{{ todo.title }}</span>
               </label>
-              <span class=" category-{{ todo.category }} has-text-info">({{ todo.category }})</span>
-              <strong class="is-pulled-right"><i class="fa fa-calendar"></i>{{ todo.created }} -
-              {{ todo.due_date }}</strong>
+              <span class=" category-{{todo.category}} has-text-info">({{todo.category.name}})</span>
+              <strong class="is-pulled-right">: Дело нужно сделать до
+              {{todo.due_date}}</strong>
           </div>
           {% endfor %}
+      </div>
+
+      <h2>Ваши сделанные задания:</h2>
+      {% for todo in completed_todos %}
+      <div class="completed_list">
+          <span class="complete">{{ todo.title }}</span>
+        <span class=" category-{{todo.category}} has-text-info">({{todo.category.name}})</span>
+        <strong class="is-pulled-right">:
+              {{todo.due_date}}</strong>
+        {% endfor %}
       </div>
   </form>
 </div>

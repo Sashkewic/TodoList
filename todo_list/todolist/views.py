@@ -7,7 +7,9 @@ def redirect_view(request):
 	return redirect("/category")
 
 def todo(request):
-	todos = TodoList.objects.all()
+	# todos = TodoList.objects.all()
+	completed_todos = TodoList.objects.filter(completed = True)
+	uncompleted_todos = TodoList.objects.filter(completed = False)
 	categories = Category.objects.all()
 
 	if request.method == "POST":
@@ -21,14 +23,15 @@ def todo(request):
 			Todo.save()
 			return redirect("/todo")
 
-		if "Delete" in request.POST:
+		if "Complete" in request.POST:
 			checkedlist = request.POST.getlist('checkedbox')
 
 			for i in range(len(checkedlist)):
 				todo = TodoList.objects.filter(id=int(checkedlist[i]))
-				todo.delete()
+				todo.update(completed = True)
+			return redirect("/todo")
 
-	return render(request, "todo.html", {"todos": todos, "categories": categories})
+	return render(request, "todo.html", {"uncompleted_todos": uncompleted_todos, "categories": categories, "completed_todos": completed_todos})
 
 def category(request):
 	categories = Category.objects.all()
